@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 /**本页需要的普通组件 */
 import { Layout } from 'antd';
@@ -8,43 +9,45 @@ import Header from '../component/Header'
 import "./BasicLayout.scss";
 
 
+// ==================
+// 本页面所需action
+// ==================
+
+import {
+  toggle
+} from "../store/action/app-action";
 
 
 const { Content, Footer} = Layout;
 
 
-
-// @connect(
-//   state => ({
-//     userinfo: state.app.userinfo
-//   })
-// )
-
-export default class AppContainer extends Component {
+class AppContainer extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      collapsed: false
-    }
+    // this.state = {
+    //   collapsed: false
+    // }
   }
 
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    })
+  onToggle = () => {
+    // this.setState({
+    //   collapsed: !this.state.collapsed
+    // })
+    this.props.actions.toggle()
   }
 
   render(h) {
+    const { toggle } = this.props
     return(
       <Layout>
         <Menu
-          collapsed={this.state.collapsed}
+          collapsed={this.props.collapsed}
         ></Menu>
         <Layout>
           <Header
-            collapsed={this.state.collapsed}
-            onToggle={this.toggle}
+            collapsed={this.props.collapsed}
+            onToggle={toggle}
           ></Header>
           <Content style={{ margin: '24px 16px 0' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>content</div>
@@ -56,3 +59,11 @@ export default class AppContainer extends Component {
     
   }
 }
+
+function mapStateToProps(state){
+  return state.app
+}
+function mapDispatchToProps(dispatch, ownProps){
+  return bindActionCreators({ toggle },dispatch)
+}
+export default connect(mapStateToProps,mapDispatchToProps)(AppContainer)

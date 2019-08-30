@@ -21,7 +21,7 @@ export default class HeaderContainer extends Component{
         <Icon
           className="trigger"
           type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
-          onClick={this.toggle}
+          onClick={this.props.onToggle}
         />
       </Header>
     )

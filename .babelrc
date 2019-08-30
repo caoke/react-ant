@@ -8,7 +8,7 @@
   ],
   "plugins": [
     "transform-runtime",
-    "transform-decorators-legacy",
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
     [
       "import",
       {

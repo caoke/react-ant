@@ -1,6 +1,5 @@
 const initState = {
-  collapsed: false,
-  userInfo: {}
+  collapsed: false
 }
 
 const actDefault = state => state;
