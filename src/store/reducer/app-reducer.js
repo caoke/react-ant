@@ -4,7 +4,7 @@ const initState = {
 
 const actDefault = state => state;
 
-const toggle = (state, {}) => {
+const toggle = (state) => {
   return {
     collapsed: !state.collapsed
   }

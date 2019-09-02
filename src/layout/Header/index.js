@@ -10,11 +10,6 @@ export default class HeaderContainer extends Component{
     this.state = {}
   }
 
-  /** 点击左侧按钮时触发 **/
-  toggle = () => {
-    this.props.onToggle(); // 父组件的函数
-  };
-
   render() {
     return (
       <Header style={{ background: '#fff', padding: 0 }}>
