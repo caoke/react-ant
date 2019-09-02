@@ -19,8 +19,15 @@ import {
 
 const { Content } = Layout;
 
-
-class AppContainer extends Component {
+@connect(
+  state => ({
+    collapsed: state.app.collapsed
+  }),
+  dispatch => ({
+    actions: bindActionCreators({ toggle }, dispatch)
+  })
+)
+export default class AppContainer extends Component {
 
   constructor(props) {
     super(props)
@@ -28,7 +35,8 @@ class AppContainer extends Component {
   }
 
   render(h) {
-    const { toggle, collapsed } = this.props
+    const { collapsed } = this.props
+    console.log(this.props)
     return(
       <Layout>
         <Menu
@@ -37,7 +45,7 @@ class AppContainer extends Component {
         <Layout>
           <Header
             collapsed={collapsed}
-            onToggle={toggle}
+            onToggle={this.props.actions.toggle}
           ></Header>
           <Content style={{ margin: '24px 16px 0' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>content</div>
@@ -50,10 +58,10 @@ class AppContainer extends Component {
   }
 }
 
-function mapStateToProps(state){
-  return state.app
-}
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({ toggle },dispatch)
-}
-export default connect(mapStateToProps,mapDispatchToProps)(AppContainer)
+// function mapStateToProps(state){
+//   return state.app
+// }
+// function mapDispatchToProps(dispatch){
+//   return bindActionCreators({ toggle },dispatch)
+// }
+// export default connect(mapStateToProps,mapDispatchToProps)(AppContainer)
