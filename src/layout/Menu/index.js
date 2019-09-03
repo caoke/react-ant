@@ -1,15 +1,15 @@
 import React from 'react';
 import { Layout, Menu, Icon } from 'antd'
 
+import { Link } from "react-router-dom";
+
 const {Sider } = Layout
 
 export default class MenuContainer extends React.Component{
 
   constructor(props) {
     super(props)
-    this.state = {
-      
-    }
+    this.state = {}
   }
 
   render() {
@@ -24,8 +24,10 @@ export default class MenuContainer extends React.Component{
           <div className="logo" />
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
             <Menu.Item key="1">
-              <Icon type="user" />
-              <span className="nav-text">nav 1</span>
+              <Link to="/home">
+                <Icon type="home" />
+                <span className="nav-text">首页</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="2">
               <Icon type="video-camera" />

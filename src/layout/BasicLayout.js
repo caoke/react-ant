@@ -22,8 +22,8 @@ import {
 // ==================
 // 路由
 // ==================
-const [App] = [
-  () => import(`../pages/app`)
+const [Home] = [
+  () => import(`../pages/Home`)
 ].map(item => {
   return Loadable({
     loader: item,
@@ -64,7 +64,7 @@ class AppContainer extends Component {
             {/* <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>content</div> */}
             <Switch>
               <Redirect exact from="/" to="/about" />
-              <Route exact path="/about" component={App} />
+              <Route exact path="/home" component={Home} />
             </Switch>
           </Content>
           <Footer></Footer>
