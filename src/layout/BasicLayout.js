@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { bindActionCreators } from "redux";
+import Loadable from "react-loadable"; // 代码分隔
 
 /**本页需要的普通组件 */
 import { Layout } from 'antd';
 import Menu from './Menu'
 import Header from './Header'
 import Footer from './Footer'
+import Loading from '../component/Loading'
 import "./BasicLayout.scss";
 
 // ==================
@@ -16,18 +19,29 @@ import {
   toggle
 } from "../store/action/app-action";
 
+// ==================
+// 路由
+// ==================
+const [App] = [
+  () => import(`../pages/app`)
+].map(item => {
+  return Loadable({
+    loader: item,
+    loading: Loading
+  });
+});
 
 const { Content } = Layout;
 
-@connect(
-  state => ({
-    collapsed: state.app.collapsed
-  }),
-  dispatch => ({
-    actions: bindActionCreators({ toggle }, dispatch)
-  })
-)
-export default class AppContainer extends Component {
+// @connect(
+//   state => ({
+//     collapsed: state.app.collapsed
+//   }),
+//   dispatch => ({
+//     actions: bindActionCreators({ toggle }, dispatch)
+//   })
+// )
+class AppContainer extends Component {
 
   constructor(props) {
     super(props)
@@ -35,8 +49,7 @@ export default class AppContainer extends Component {
   }
 
   render(h) {
-    const { collapsed } = this.props
-    console.log(this.props)
+    const { collapsed, toggle } = this.props
     return(
       <Layout>
         <Menu
@@ -45,10 +58,14 @@ export default class AppContainer extends Component {
         <Layout>
           <Header
             collapsed={collapsed}
-            onToggle={this.props.actions.toggle}
+            onToggle={toggle}
           ></Header>
           <Content style={{ margin: '24px 16px 0' }}>
-            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>content</div>
+            {/* <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>content</div> */}
+            <Switch>
+              <Redirect exact from="/" to="/about" />
+              <Route exact path="/about" component={App} />
+            </Switch>
           </Content>
           <Footer></Footer>
         </Layout>
@@ -58,10 +75,10 @@ export default class AppContainer extends Component {
   }
 }
 
-// function mapStateToProps(state){
-//   return state.app
-// }
-// function mapDispatchToProps(dispatch){
-//   return bindActionCreators({ toggle },dispatch)
-// }
-// export default connect(mapStateToProps,mapDispatchToProps)(AppContainer)
+function mapStateToProps(state){
+  return state.app
+}
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({ toggle },dispatch)
+}
+export default connect(mapStateToProps,mapDispatchToProps)(AppContainer)
