@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Layout, Icon } from 'antd'
+import { Layout, Icon, Breadcrumb  } from 'antd'
 
+import './index.scss'
 
-const {Header} = Layout
+const { Header } = Layout
 
 export default class HeaderContainer extends Component{
   constructor(props) {
@@ -12,12 +13,23 @@ export default class HeaderContainer extends Component{
 
   render() {
     return (
-      <Header style={{ background: '#fff', padding: 0 }}>
+      <Header className="header-container" style={{ background: '#fff', padding: 0 }}>
         <Icon
           className="trigger"
           type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
           onClick={this.props.onToggle}
         />
+
+        <Breadcrumb>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a href="">Application Center</a>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a href="">Application List</a>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>An Application</Breadcrumb.Item>
+        </Breadcrumb>
       </Header>
     )
   }

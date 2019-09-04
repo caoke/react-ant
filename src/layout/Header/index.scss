@@ -1,0 +1,17 @@
+$backColor: #d1e3fa;
+
+.header-container{
+  display: flex;
+  align-items: center;
+  line-height: 64px;
+  height:64px;
+  .trigger{
+    padding: 0 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+    line-height: 64px;
+    &:hover{
+      background: $backColor;
+    }
+  }
+}

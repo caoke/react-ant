@@ -30,8 +30,10 @@ export default class MenuContainer extends React.Component{
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Icon type="video-camera" />
-              <span className="nav-text">nav 2</span>
+              <Link to="/list">
+                <Icon type="database" />
+                <span className="nav-text">列表</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="3">
               <Icon type="upload" />

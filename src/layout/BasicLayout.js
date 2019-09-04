@@ -22,8 +22,9 @@ import {
 // ==================
 // 路由
 // ==================
-const [Home] = [
-  () => import(`../pages/Home`)
+const [Home, List] = [
+  () => import(`../pages/Home`),
+  () => import('../pages/List')
 ].map(item => {
   return Loadable({
     loader: item,
@@ -65,6 +66,7 @@ class AppContainer extends Component {
             <Switch>
               <Redirect exact from="/" to="/about" />
               <Route exact path="/home" component={Home} />
+              <Route exact path="/list" component={List} />
             </Switch>
           </Content>
           <Footer></Footer>
