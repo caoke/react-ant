@@ -33,6 +33,12 @@ const [Home, List] = [
 });
 
 const { Content } = Layout;
+function mapStateToProps(state){
+  return state.app
+}
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({ toggle },dispatch)
+}
 
 // @connect(
 //   state => ({
@@ -42,6 +48,8 @@ const { Content } = Layout;
 //     actions: bindActionCreators({ toggle }, dispatch)
 //   })
 // )
+
+@connect(mapStateToProps, mapDispatchToProps) //还可以添加其他装饰器,装饰器会由里之外的顺序执行
 class AppContainer extends Component {
 
   constructor(props) {
@@ -77,10 +85,11 @@ class AppContainer extends Component {
   }
 }
 
-function mapStateToProps(state){
-  return state.app
-}
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({ toggle },dispatch)
-}
-export default connect(mapStateToProps,mapDispatchToProps)(AppContainer)
+// function mapStateToProps(state){
+//   return state.app
+// }
+// function mapDispatchToProps(dispatch){
+//   return bindActionCreators({ toggle },dispatch)
+// }
+// export default connect(mapStateToProps,mapDispatchToProps)(AppContainer)
+export default AppContainer
