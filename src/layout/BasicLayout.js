@@ -33,32 +33,33 @@ const [Home, List] = [
 });
 
 const { Content } = Layout;
-function mapStateToProps(state){
-  return state.app
-}
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({ toggle },dispatch)
-}
 
-// @connect(
-//   state => ({
-//     collapsed: state.app.collapsed
-//   }),
-//   dispatch => ({
-//     actions: bindActionCreators({ toggle }, dispatch)
-//   })
-// )
+// redux通信方案二
+// function mapStateToProps(state){
+//   return state.app
+// }
+// function mapDispatchToProps(dispatch){
+//   return bindActionCreators({ toggle },dispatch)
+// }
+// @connect(mapStateToProps, mapDispatchToProps) //还可以添加其他装饰器,装饰器会由里之外的顺序执行
 
-@connect(mapStateToProps, mapDispatchToProps) //还可以添加其他装饰器,装饰器会由里之外的顺序执行
+// redux通信方案三
+@connect(
+  state => ({
+    collapsed: state.app.collapsed
+  }),
+  dispatch => ({
+    actions: bindActionCreators({ toggle }, dispatch)
+  })
+)
 class AppContainer extends Component {
-
   constructor(props) {
     super(props)
     this.state = {}
   }
 
   render(h) {
-    const { collapsed, toggle } = this.props
+    const { collapsed, actions } = this.props
     return(
       <Layout>
         <Menu
@@ -67,7 +68,7 @@ class AppContainer extends Component {
         <Layout>
           <Header
             collapsed={collapsed}
-            onToggle={toggle}
+            onToggle={actions.toggle}
           ></Header>
           <Content style={{ margin: '24px 16px 0' }}>
             {/* <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>content</div> */}
@@ -85,6 +86,7 @@ class AppContainer extends Component {
   }
 }
 
+// redux通信方法一
 // function mapStateToProps(state){
 //   return state.app
 // }
@@ -92,4 +94,5 @@ class AppContainer extends Component {
 //   return bindActionCreators({ toggle },dispatch)
 // }
 // export default connect(mapStateToProps,mapDispatchToProps)(AppContainer)
+
 export default AppContainer
