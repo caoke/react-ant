@@ -1,5 +1,6 @@
 import React , { Component } from 'react';
-import { Spin, Form, Icon, Input, Button, Row, Col, message } from 'antd'
+import { Spin, Form, Icon, Input, Button, Row, Col, message, Table, Divider, Tag } from 'antd'
+import "./index.scss"
 
 const FormItem = Form.Item
 @Form.create({
@@ -9,7 +10,79 @@ export default class pageList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      expand: false
+      expand: false,
+      data: [
+        {
+          key: '1',
+          name: 'John Brown',
+          age: 32,
+          address: 'New York No. 1 Lake Park',
+          tags: ['nice', 'developer'],
+        },
+        {
+          key: '2',
+          name: 'Jim Green',
+          age: 42,
+          address: 'London No. 1 Lake Park',
+          tags: ['loser'],
+        },
+        {
+          key: '3',
+          name: 'Joe Black',
+          age: 32,
+          address: 'Sidney No. 1 Lake Park',
+          tags: ['cool', 'teacher'],
+        }
+      ],
+      columns: [
+        {
+          title: 'Name',
+          dataIndex: 'name',
+          key: 'name',
+          render: text => <a>{text}</a>,
+        },
+        {
+          title: 'Age',
+          dataIndex: 'age',
+          key: 'age',
+        },
+        {
+          title: 'Address',
+          dataIndex: 'address',
+          key: 'address',
+        },
+        {
+          title: 'Tags',
+          key: 'tags',
+          dataIndex: 'tags',
+          render: tags => (
+            <span>
+              {tags.map(tag => {
+                let color = tag.length > 5 ? 'geekblue' : 'green';
+                if (tag === 'loser') {
+                  color = 'volcano';
+                }
+                return (
+                  <Tag color={color} key={tag}>
+                    {tag.toUpperCase()}
+                  </Tag>
+                );
+              })}
+            </span>
+          ),
+        },
+        {
+          title: 'Action',
+          key: 'action',
+          render: (text, record) => (
+            <span>
+              <a>Invite {record.name}</a>
+              <Divider type="vertical" />
+              <a>Delete</a>
+            </span>
+          ),
+        }
+      ]
     }
   }
 
@@ -26,34 +99,65 @@ export default class pageList extends Component {
     });
   }
 
+  getFields() {
+    const count = this.state.expand ? 10 : 6;
+    const { getFieldDecorator } = this.props.form;
+    const children = [];
+    for (let i = 0; i < 10; i++) {
+      children.push(
+        <Col span={8} key={i} style={{ display: i < count ? 'block' : 'none' }}>
+          <FormItem label={`Field ${i}`}>
+            {getFieldDecorator(`field-${i}`, {
+              rules: [
+                {
+                  required: true,
+                  message: 'Input something!',
+                },
+              ],
+            })(<Input placeholder="placeholder" />)}
+          </FormItem>
+        </Col>,
+      );
+    }
+    return children;
+  }
+
+  handleSearch = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      console.log('Received values of form: ', values);
+    });
+  };
+  handleReset = () => {
+    this.props.form.resetFields();
+  };
+
+  toggle = () => {
+    const { expand } = this.state;
+    this.setState({ expand: !expand });
+  };
+
   render() {
-    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
-
-    // Only show error after a field is touched.
-    const usernameError = isFieldTouched('username') && getFieldError('username');
-
+    const {columns, data, expand} = this.state
     return (
       <div className="page list">
-        <Form layout="inline" onSubmit={this.handleSubmit}>
-          <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
-            {getFieldDecorator('username', {
-              rules: [{ required: true, message: 'Please input your username!' }],
-            })(
-              <Input
-                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                placeholder="请输入用户名"
-              />,
-            )}
-          </Form.Item>
-          <Form.Item >
-            {getFieldDecorator('password', { 
-              rules: [{ required: true, message: 'Please input your password'}]
-            })(<Input  placeholder="请输入密码" type="password" />)}
-          </Form.Item>
-          <FormItem>
-            <Button type="primary" htmlType="submit" className="cert-btn">登录</Button>
-          </FormItem>
+        <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
+          <Row gutter={24}>{this.getFields()}</Row>
+          <Row>
+            <Col span={24} style={{ textAlign: 'right' }}>
+              <Button type="primary" htmlType="submit">
+                Search
+              </Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
+                Clear
+              </Button>
+              <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggle}>
+                Collapse <Icon type={expand ? 'up' : 'down'} />
+              </a>
+            </Col>
+          </Row>
         </Form>
+        <Table columns={columns} dataSource={data} />
       </div>
     );
   }
