@@ -16,4 +16,5 @@ code {
 .page{
   height: calc(100vh - 157px );
   background: #fff;
+  overflow: auto;
 }

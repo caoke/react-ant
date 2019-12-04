@@ -6,7 +6,6 @@ import { createHashHistory as createHistory } from "history"; // 锚点模式的
 
 /**本页面需要的路由 */
 import BasicLayout from '../layout/BasicLayout.js';
-// import About from '../pages/about'
 
 const history = createHistory();
 
