@@ -7,8 +7,9 @@ const FormItem = Form.Item
   // onFieldsChange(props, items) {},
 })
 export default class pageList extends Component {
+  // 如果 一个子类通过extends继承了父类 并且 子类的constructor必须调用一下super函数
   constructor(props) {
-    super(props)
+    super(props) // 代表父类的构造器 表示调用父类构造器
     this.state = {
       expand: false,
       data: [

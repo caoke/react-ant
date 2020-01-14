@@ -81,7 +81,16 @@ module.exports = function(proxy, allowedHost) {
       disableDotRule: true,
     },
     public: allowedHost,
-    proxy,
+    proxy: {
+      '/': {
+        target: 'http://opdp.sit.sf-express.com', // sit
+        // target: 'http://bpds.intsit.sfdc.com.cn',
+        // target: 'http://10.0.10.24:8080',
+        // target: 'http://10.0.10.14:8080',
+        changeOrigin: true,
+        ws: false
+      }
+    },
     before(app, server) {
       if (fs.existsSync(paths.proxySetup)) {
         // This registers user provided middleware for proxy reasons
